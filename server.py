@@ -4,7 +4,7 @@ from numpy import pi, squeeze
 from keras.models import load_model
 from PIL import Image
 import numpy
-from utils import generate_random_name, is_valid_file_type, load_image, classes
+from utils import generate_random_name, is_valid_file_type, load_image, classes, resize_image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "yashandsal"
@@ -37,7 +37,7 @@ def home():
                 filename = generate_random_name(image_file.filename)
                 filepath = os.path.join('/tmp/images/', filename)
                 image_file.save(filepath)
-                passed = True
+                passed = resize_image(filepath)
             except Exception:
                 passed = False
 
@@ -56,11 +56,12 @@ def predict(filename):
     print(image.shape)
     pred = model.predict_classes([image])[0]
     prediction = classes[pred+1]
+    image_url = url_for('images', filename=filename)
     """ image_url = url_for('images', filename=filename)
     image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     image_data = load_image(image_path)
     predictions = model.predict_proba(image_data) """
-    return render_template('predict.html', prediction=prediction)
+    return render_template('predict.html', prediction=prediction, image_url=image_url)
 
 
 @app.errorhandler(500)

@@ -51,7 +51,7 @@ labels_data = len(labels)
 training_images = training_images.astype('float32') / 255 
 validation_images = validation_images.astype('float32') / 255
 (training_labels, validation_labels) = labels[(int)(0.2 * labels_data):], labels[:(int)(0.2 * labels_data)]
-
+training_shape = training_images.shape[1:]
 # Using one hot encoding for the labels
 from keras.utils import to_categorical
 training_labels = to_categorical(training_labels, class_size)
@@ -59,17 +59,20 @@ validation_labels = to_categorical(validation_labels, class_size)
 
 # DNN Model 
 model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(32, kernel_size=(5,5), padding='same', activation='relu', input_shape = training_images.shape[1:]),
-    tf.keras.layers.Conv2D(32, kernel_size=(5,5), padding='same', activation='relu'),
+    tf.keras.layers.Conv2D(16, kernel_size=(5,5), padding='same', activation='relu', input_shape = training_shape),
+    tf.keras.layers.Conv2D(16, kernel_size=(5,5), padding='same', activation='relu'),
     tf.keras.layers.MaxPool2D(pool_size=(2, 2)),
-    tf.keras.layers.Dropout(rate=0.25),
-    tf.keras.layers.Conv2D(64, kernel_size=(3,3), padding='same', activation='relu', input_shape = training_images[1:]),
+    tf.keras.layers.Dropout(rate=0.3),
+    tf.keras.layers.Conv2D(32, kernel_size=(3,3), padding='same', activation='relu', input_shape = training_shape),
+    tf.keras.layers.Conv2D(32, kernel_size=(3,3), padding='same', activation='relu'),
+    tf.keras.layers.MaxPool2D(pool_size=(2, 2)),
+    tf.keras.layers.Dropout(rate=0.3),
+    tf.keras.layers.Conv2D(64, kernel_size=(3,3), padding='same', activation='relu', input_shape = training_shape),
     tf.keras.layers.Conv2D(64, kernel_size=(3,3), padding='same', activation='relu'),
     tf.keras.layers.MaxPool2D(pool_size=(2, 2)),
-    tf.keras.layers.Dropout(rate=0.25),
+    tf.keras.layers.Dropout(rate=0.3),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(256, activation='relu'),
-    tf.keras.layers.Dropout(rate=0.25),
     tf.keras.layers.Dense(class_size, activation='softmax')
 ])
 

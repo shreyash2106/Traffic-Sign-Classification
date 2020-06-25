@@ -1,7 +1,16 @@
 {% extends 'layout.html' %}
 {% block body %}
-<img src="nnalt.jpeg">
+<!-- <img src="../static/nnalt.jpeg"> --> 
 <p>Our algorithm thinks it is a...</p>
 <p>{{prediction}}</p>
+<img class="image" src="{{image_url}}" alt="Input image">
+<p>  
 
+</p>
+<img class="image" src="../static/nn.gif" width="150", height="100">
+<style>
+    .image { 
+        filter: brightness(1.5);
+    }
+</style>
 {% endblock %}

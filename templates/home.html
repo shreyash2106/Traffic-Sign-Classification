@@ -10,11 +10,12 @@
 </ul>
 {% endif %}
 {% endwith %}
-<img src="nn2.jpeg">
+<img class="image" src="../static/nn2.jpeg" /> 
+
 <p>Upload an image of a road sign and let the CNN classify your image!</p>
 
 <p>Possible labels: Stop, Pedestrains, 70km/h Speed Sign, 100km/h Speed Sign, No Overtaking</p>
-
+<p><a href="../static/Test.zip" download>Download a Test Dataset</a> containing 500 road sign images to test the neural network.</p>
 <form action="/" method="post" enctype="multipart/form-data">
   <input type="file" name="image" id="image">
     <br>
